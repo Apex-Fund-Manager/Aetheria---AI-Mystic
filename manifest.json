@@ -1,15 +1,21 @@
 {
   "name": "Aetheria",
   "short_name": "Aetheria",
-  "start_url": ".",
+  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#0f0518",
   "theme_color": "#0f0518",
   "description": "AI Spiritual Companion",
+  "orientation": "portrait",
   "icons": [
     {
       "src": "https://cdn.lucide.dev/icon/sparkles.png", 
       "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://cdn.lucide.dev/icon/sparkles.png", 
+      "sizes": "512x512",
       "type": "image/png"
     }
   ]

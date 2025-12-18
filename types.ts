@@ -5,18 +5,20 @@ export type LegalMode = 'terms' | 'privacy' | 'support' | null;
 export interface UserState {
   credits: number;
   streak: number;
-  lastDailyBonus: string | null; // ISO date string
+  lastDailyBonus: string | null;
   history: ReadingHistory[];
   soundEnabled: boolean;
   hapticEnabled: boolean;
   hasSeenTutorial: boolean;
+  isPromoActive: boolean; // Pre-clicked status
 }
 
 export interface TarotCard {
   name: string;
-  position: 'Past' | 'Present' | 'Future';
+  position: 'Past' | 'Present' | 'Future' | string;
   meaning: string;
-  visualCue: string; // Description for a placeholder image
+  visualCue: string;
+  imageUrl?: string;
 }
 
 export interface TarotResult {
@@ -35,7 +37,7 @@ export interface AstralResult {
   guidance: string;
   technique: string;
   safetyTip: string;
-  plane: string; // e.g., "Etheric Plane", "Astral Plane", "Mental Plane"
+  plane: string;
 }
 
 export interface ReadingHistory {
