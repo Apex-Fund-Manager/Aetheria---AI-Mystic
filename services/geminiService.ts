@@ -1,12 +1,24 @@
 import { GoogleGenAI, Type } from "@google/genai";
 import { DreamResult, TarotResult, AstralResult } from "../types.ts";
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+let aiInstance: any = null;
+
+const getAI = () => {
+  if (!aiInstance) {
+    const apiKey = process.env.API_KEY || (window as any).process?.env?.API_KEY;
+    if (!apiKey) {
+      console.warn("Aetheria: API_KEY is missing. AI features will be unavailable.");
+    }
+    aiInstance = new GoogleGenAI({ apiKey: apiKey || 'MISSING_KEY' });
+  }
+  return aiInstance;
+};
 
 const modelName = "gemini-3-flash-preview";
 const imageModelName = "gemini-2.5-flash-image";
 
 export const getTarotReading = async (question: string): Promise<TarotResult> => {
+  const ai = getAI();
   try {
     const response = await ai.models.generateContent({
       model: modelName,
@@ -15,11 +27,11 @@ export const getTarotReading = async (question: string): Promise<TarotResult> =>
       Instructions:
       1. Draw 3 Tarot cards (Past, Present, Future).
       2. For each card, provide an interpretation that SPECIFICALLY addresses the question: "${question}".
-      3. DO NOT give generic meanings. If the user asks if tarot is true, use the cards to explain the nature of intuition and truth.
-      4. The 'visualCue' must be a vivid, descriptive prompt (1 sentence) for an image generator to create a mystical illustration of this specific card.
+      3. DO NOT give generic meanings.
+      4. The 'visualCue' must be a vivid, descriptive prompt (1 sentence) for an image generator.
       5. Provide a summary that ties all cards back to the user's specific inquiry.`,
       config: {
-        systemInstruction: "You are Aetheria, a direct and insightful digital oracle. You NEVER ignore the user's question. Your readings are tailored entirely to the specific words the user types.",
+        systemInstruction: "You are Aetheria, a direct and insightful digital oracle. Readings are tailored entirely to the specific words the user types.",
         responseMimeType: "application/json",
         responseSchema: {
           type: Type.OBJECT,
@@ -54,6 +66,7 @@ export const getTarotReading = async (question: string): Promise<TarotResult> =>
 };
 
 export const generateCardImage = async (visualCue: string): Promise<string> => {
+  const ai = getAI();
   try {
     const response = await ai.models.generateContent({
       model: imageModelName,
@@ -84,6 +97,7 @@ export const generateCardImage = async (visualCue: string): Promise<string> => {
 };
 
 export const getDreamInterpretation = async (dreamText: string): Promise<DreamResult> => {
+  const ai = getAI();
   try {
     const response = await ai.models.generateContent({
       model: modelName,
@@ -110,6 +124,7 @@ export const getDreamInterpretation = async (dreamText: string): Promise<DreamRe
 };
 
 export const getAstralGuidance = async (question: string): Promise<AstralResult> => {
+  const ai = getAI();
   try {
     const response = await ai.models.generateContent({
       model: modelName,
