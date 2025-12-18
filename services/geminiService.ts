@@ -1,11 +1,11 @@
 import { GoogleGenAI, Type } from "@google/genai";
-import { DreamResult, TarotResult, AstralResult } from "../types.ts";
+import { DreamResult, TarotResult, AstralResult } from "../types";
 
 let aiInstance: any = null;
 
 const getAI = () => {
   if (!aiInstance) {
-    const apiKey = process.env.API_KEY || (window as any).process?.env?.API_KEY;
+    const apiKey = typeof process !== 'undefined' ? process.env.API_KEY : (window as any).process?.env?.API_KEY;
     if (!apiKey) {
       console.warn("Aetheria: API_KEY is missing. AI features will be unavailable.");
     }

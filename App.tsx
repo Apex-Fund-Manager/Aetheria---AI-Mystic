@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { CreditDisplay } from './components/CreditDisplay.tsx';
-import { NavBar } from './components/NavBar.tsx';
-import { Button } from './components/Button.tsx';
-import { AppView, UserState, TarotResult, DreamResult, AstralResult, TarotCard } from './types.ts';
-import { getTarotReading, getDreamInterpretation, getAstralGuidance, generateCardImage } from './services/geminiService.ts';
+import { CreditDisplay } from './components/CreditDisplay';
+import { NavBar } from './components/NavBar';
+import { Button } from './components/Button';
+import { AppView, UserState, TarotResult, DreamResult, AstralResult } from './types';
+import { getTarotReading, getDreamInterpretation, getAstralGuidance, generateCardImage } from './services/geminiService';
 import { Sparkles, Moon, Eye, User, Compass, Play, X, CheckCircle2, Ticket, Zap, Loader2 } from 'lucide-react';
-import { playSpendSound, playCompletionSound, playPurchaseSound } from './utils/sound.ts';
-import { triggerHaptic } from './utils/haptics.ts';
+import { playSpendSound, playCompletionSound, playPurchaseSound } from './utils/sound';
+import { triggerHaptic } from './utils/haptics';
 
 const TAROT_COST = 20;
 const DREAM_COST = 15;
