@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { CreditDisplay } from './components/CreditDisplay';
-import { NavBar } from './components/NavBar';
-import { Button } from './components/Button';
-import { AppView, UserState, TarotResult, DreamResult, AstralResult, TarotCard } from './types';
-import { getTarotReading, getDreamInterpretation, getAstralGuidance, generateCardImage } from './services/geminiService';
+import { CreditDisplay } from './components/CreditDisplay.tsx';
+import { NavBar } from './components/NavBar.tsx';
+import { Button } from './components/Button.tsx';
+import { AppView, UserState, TarotResult, DreamResult, AstralResult, TarotCard } from './types.ts';
+import { getTarotReading, getDreamInterpretation, getAstralGuidance, generateCardImage } from './services/geminiService.ts';
 import { Sparkles, Moon, Eye, User, Compass, Play, X, CheckCircle2, Ticket, Zap, Loader2 } from 'lucide-react';
-import { playSpendSound, playCompletionSound, playPurchaseSound } from './utils/sound';
-import { triggerHaptic } from './utils/haptics';
+import { playSpendSound, playCompletionSound, playPurchaseSound } from './utils/sound.ts';
+import { triggerHaptic } from './utils/haptics.ts';
 
 const TAROT_COST = 20;
 const DREAM_COST = 15;
@@ -26,9 +26,7 @@ const INITIAL_STATE: UserState = {
 const CardShuffle = () => (
   <div className="flex flex-col items-center justify-center py-12 animate-fade-in">
     <div className="relative w-32 h-48 mb-12">
-      {/* Back layer */}
       <div className="absolute inset-0 bg-mystic-800 rounded-xl border border-white/10 shadow-2xl opacity-50 transform -rotate-6"></div>
-      {/* Shuffling layers */}
       <div className="absolute inset-0 bg-mystic-700 rounded-xl border border-white/20 shadow-2xl animate-shuffle-left">
         <div className="w-full h-full flex items-center justify-center">
           <Sparkles className="w-8 h-8 text-white/10" />
@@ -39,7 +37,6 @@ const CardShuffle = () => (
           <Sparkles className="w-8 h-8 text-white/20" />
         </div>
       </div>
-      {/* Front layer */}
       <div className="absolute inset-0 bg-mystic-500 rounded-xl border border-white/40 shadow-2xl z-20 flex flex-col items-center justify-center">
         <div className="w-16 h-24 border-2 border-white/20 rounded-lg flex items-center justify-center">
           <Sparkles className="w-8 h-8 text-white/40 animate-pulse" />
@@ -122,9 +119,7 @@ export default function App() {
       if (user.soundEnabled) playCompletionSound();
       vibrate('success');
       
-      // PARALLEL IMAGE GENERATION
       setIsGeneratingImages(true);
-      
       const imagePromises = result.cards.map(async (card, index) => {
         const url = await generateCardImage(card.visualCue);
         setTarotResult(prev => {
@@ -135,7 +130,6 @@ export default function App() {
         });
         return url;
       });
-
       await Promise.all(imagePromises);
     } catch (e) {
       console.error(e);
@@ -179,7 +173,6 @@ export default function App() {
   const renderStore = (isModal = false) => (
     <div className={`p-4 ${!isModal ? 'pb-24' : ''}`}>
       <h2 className="text-2xl font-bold mb-2 text-center text-white">Crystal Store</h2>
-      
       <div className="mb-6 bg-green-500/10 border border-green-500/30 p-4 rounded-2xl flex items-center justify-between shadow-lg">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center">
@@ -192,7 +185,6 @@ export default function App() {
         </div>
         <CheckCircle2 className="w-6 h-6 text-green-400" />
       </div>
-
       <button onClick={handleWatchAd} className="w-full mb-6 bg-indigo-900/20 p-4 rounded-2xl border border-indigo-500/20 flex items-center justify-between group active:scale-95 transition-all">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-full bg-indigo-500/20 flex items-center justify-center">
@@ -205,7 +197,6 @@ export default function App() {
         </div>
         <div className="bg-gold-500 text-black font-bold text-[10px] px-2 py-1 rounded-lg">+5 CR</div>
       </button>
-
       <div className="space-y-4">
         {[ 
           { base: 50, bonus: 25, price: "$0.99", id: "pkg_75" }, 
@@ -235,7 +226,6 @@ export default function App() {
   return (
     <div className="min-h-screen bg-[#0f0518] text-white selection:bg-mystic-500/30 relative">
       <CreditDisplay credits={user.credits} onAddCredits={() => setView('store')} />
-
       {showRefillModal && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/95 backdrop-blur-md p-4 animate-fade-in">
           <div className="bg-mystic-900 w-full max-w-sm rounded-3xl border border-white/10 shadow-2xl overflow-hidden relative">
@@ -249,7 +239,6 @@ export default function App() {
           </div>
         </div>
       )}
-
       <main className="max-w-md mx-auto min-h-[calc(100vh-140px)]">
         {view === 'home' && (
           <div className="p-4 space-y-6 pb-24">
@@ -258,7 +247,6 @@ export default function App() {
               <h2 className="text-xl font-bold mb-1">Aetheria Gate</h2>
               <p className="text-mystic-300 text-sm">Divine Energy: <span className="text-white font-bold">{user.credits} CR</span></p>
             </div>
-            
             <div className="grid grid-cols-2 gap-4">
               <button onClick={() => setView('tarot')} className="bg-mystic-800/50 p-5 rounded-2xl border border-white/5 text-left active:scale-95 transition-all group">
                 <Sparkles className="w-6 h-6 text-indigo-400 mb-4 group-hover:scale-110 transition-transform" />
@@ -281,30 +269,19 @@ export default function App() {
             </div>
           </div>
         )}
-
         {view === 'tarot' && (
           <div className="p-4 space-y-6 pb-24">
             <h2 className="text-2xl font-bold text-center">Tarot Oracle</h2>
-            
-            {/* Shuffling phase */}
             {isLoading && !tarotResult && <CardShuffle />}
-
             {!isLoading && !tarotResult && (
               <div className="space-y-4">
                 <div className="bg-mystic-900 p-4 rounded-2xl border border-white/10">
                   <p className="text-xs font-bold text-indigo-400 uppercase mb-2">Your Specific Question</p>
-                  <input 
-                    type="text" 
-                    placeholder="e.g. Will my business grow?" 
-                    className="w-full bg-transparent text-white focus:outline-none" 
-                    value={tarotInput} 
-                    onChange={(e) => setTarotInput(e.target.value)} 
-                  />
+                  <input type="text" placeholder="e.g. Will my business grow?" className="w-full bg-transparent text-white focus:outline-none" value={tarotInput} onChange={(e) => setTarotInput(e.target.value)} />
                 </div>
                 <Button onClick={runTarot} isLoading={isLoading} disabled={!tarotInput.trim()}>Unlock Reading ({TAROT_COST} CR)</Button>
               </div>
             )}
-
             {tarotResult && (
               <div className="space-y-8 animate-fade-in">
                 <div className="bg-indigo-900/20 p-4 rounded-xl border border-indigo-500/20 italic text-xs text-center text-indigo-200">
@@ -342,7 +319,6 @@ export default function App() {
             )}
           </div>
         )}
-
         {view === 'dream' && (
           <div className="p-4 space-y-6 pb-24">
             <h2 className="text-2xl font-bold text-center">Dream Weaver</h2>
@@ -362,7 +338,6 @@ export default function App() {
                     <h4 className="text-purple-400 font-bold uppercase text-xs tracking-widest">Interpretation</h4>
                   </div>
                   <p className="text-sm leading-relaxed text-mystic-100 mb-8">{dreamResult.interpretation}</p>
-                  
                   <div className="grid grid-cols-2 gap-4">
                     <div className="p-4 bg-white/5 rounded-2xl border border-white/10">
                       <div className="text-[10px] text-white/40 uppercase mb-2">Lucky Path</div>
@@ -379,7 +354,6 @@ export default function App() {
             )}
           </div>
         )}
-
         {view === 'astral' && (
           <div className="p-4 space-y-6 pb-24">
             <h2 className="text-2xl font-bold text-center">Astral Guide</h2>
@@ -410,9 +384,7 @@ export default function App() {
             )}
           </div>
         )}
-
         {view === 'store' && renderStore()}
-
         {view === 'profile' && (
           <div className="p-4 pb-24">
             <div className="text-center mb-10">
@@ -425,7 +397,6 @@ export default function App() {
               <h2 className="text-xl font-bold text-white tracking-widest">DIVINE SEEKER</h2>
               <div className="text-[10px] text-mystic-500 font-mono mt-1">EST. 2024</div>
             </div>
-            
             <div className="bg-mystic-800/30 rounded-3xl overflow-hidden border border-white/5 divide-y divide-white/5">
               <div className="p-6 flex justify-between items-center">
                 <span className="text-mystic-300 font-medium">Spiritual Energy</span>
@@ -448,14 +419,12 @@ export default function App() {
                 </button>
               </div>
             </div>
-            
             <div className="mt-8 bg-indigo-500/5 p-6 rounded-3xl border border-indigo-500/10 text-center">
                 <p className="text-[10px] text-indigo-300 leading-relaxed">Your journey through Aetheria is private and secure. All readings are destroyed upon closing the app unless saved to your spirit.</p>
             </div>
           </div>
         )}
       </main>
-      
       <NavBar currentView={view} setView={setView} hapticEnabled={user.hapticEnabled} />
     </div>
   );

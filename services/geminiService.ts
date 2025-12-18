@@ -1,10 +1,10 @@
 import { GoogleGenAI, Type } from "@google/genai";
-import { DreamResult, TarotResult, AstralResult } from "../types";
+import { DreamResult, TarotResult, AstralResult } from "../types.ts";
 
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
 const modelName = "gemini-3-flash-preview";
-const imageModelName = "gemini-2.5-flash-image"; // Switched for significantly faster generation
+const imageModelName = "gemini-2.5-flash-image";
 
 export const getTarotReading = async (question: string): Promise<TarotResult> => {
   try {

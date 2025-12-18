@@ -75,21 +75,17 @@
         background-color: #0f0518;
         color: #fff;
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-        
-        /* STRICT NATIVE BEHAVIOR */
-        overscroll-behavior-y: none; /* Prevents pull-to-refresh / rubber banding */
-        -webkit-tap-highlight-color: transparent; /* Removes blue box on click */
-        -webkit-touch-callout: none; /* Disables long-press menu */
-        -webkit-user-select: none; /* Disables text selection */
+        overscroll-behavior-y: none;
+        -webkit-tap-highlight-color: transparent;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
         user-select: none;
-        touch-action: pan-y; /* smooth scrolling but no zoom */
-        
+        touch-action: pan-y;
         height: 100%;
         width: 100%;
-        overflow: hidden; /* App container handles scroll, not body */
+        overflow: hidden;
       }
 
-      /* Allow text selection only on inputs */
       input, textarea {
         -webkit-user-select: text;
         user-select: text;
@@ -98,11 +94,10 @@
       #root {
         height: 100%;
         width: 100%;
-        overflow-y: auto; /* The app itself scrolls */
-        -webkit-overflow-scrolling: touch; /* Momentum scrolling */
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
       }
       
-      /* Hide scrollbar for clean mobile look */
       .no-scrollbar::-webkit-scrollbar {
         display: none;
       }
@@ -111,7 +106,6 @@
         scrollbar-width: none;
       }
       
-      /* Star Animation */
       @keyframes twinkle {
         0%, 100% { opacity: 0.3; transform: scale(0.8); }
         50% { opacity: 1; transform: scale(1.2); }
@@ -124,7 +118,6 @@
         animation-delay: var(--delay);
       }
       
-      /* Safe area padding for iPhones with notches */
       .pb-safe {
         padding-bottom: env(safe-area-inset-bottom);
       }
@@ -143,5 +136,6 @@
 </head>
   <body>
     <div id="root"></div>
+    <script type="module" src="index.tsx"></script>
   </body>
 </html>
