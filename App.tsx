@@ -53,8 +53,12 @@ const CardShuffle = () => (
 export default function App() {
   const [view, setView] = useState<AppView>('home');
   const [user, setUser] = useState<UserState>(() => {
-    const saved = localStorage.getItem('aetheria_user');
-    return saved ? { ...INITIAL_STATE, ...JSON.parse(saved) } : INITIAL_STATE;
+    try {
+      const saved = localStorage.getItem('aetheria_user');
+      return saved ? { ...INITIAL_STATE, ...JSON.parse(saved) } : INITIAL_STATE;
+    } catch (e) {
+      return INITIAL_STATE;
+    }
   });
 
   const [isLoading, setIsLoading] = useState(false);
@@ -121,14 +125,19 @@ export default function App() {
       
       setIsGeneratingImages(true);
       const imagePromises = result.cards.map(async (card, index) => {
-        const url = await generateCardImage(card.visualCue);
-        setTarotResult(prev => {
-          if (!prev) return prev;
-          const newCards = [...prev.cards];
-          newCards[index] = { ...newCards[index], imageUrl: url };
-          return { ...prev, cards: newCards };
-        });
-        return url;
+        try {
+          const url = await generateCardImage(card.visualCue);
+          setTarotResult(prev => {
+            if (!prev) return prev;
+            const newCards = [...prev.cards];
+            newCards[index] = { ...newCards[index], imageUrl: url };
+            return { ...prev, cards: newCards };
+          });
+          return url;
+        } catch (err) {
+          console.warn("Card image failed:", err);
+          return '';
+        }
       });
       await Promise.all(imagePromises);
     } catch (e) {

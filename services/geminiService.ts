@@ -1,5 +1,3 @@
-
-
 import { GoogleGenAI, Type } from "@google/genai";
 import { DreamResult, TarotResult, AstralResult } from "../types.ts";
 
