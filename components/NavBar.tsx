@@ -1,7 +1,7 @@
 import React from 'react';
 import { Moon, Eye, User, Home, Sparkles, Compass } from 'lucide-react';
-import { AppView } from '../types';
-import { triggerHaptic } from '../utils/haptics';
+import { AppView } from '../types.ts';
+import { triggerHaptic } from '../utils/haptics.ts';
 
 interface Props {
   currentView: AppView;

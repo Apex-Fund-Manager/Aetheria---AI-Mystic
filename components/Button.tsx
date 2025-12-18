@@ -1,5 +1,5 @@
 import React from 'react';
-import { triggerHaptic } from '../utils/haptics';
+import { triggerHaptic } from '../utils/haptics.ts';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
